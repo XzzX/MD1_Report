@@ -1,0 +1,153 @@
+%Mustervorlage (c) Sebastian Eibl
+
+\documentclass[%
+12pt,														% 10pt, 11pt, 12pt Wählt die Schriftgröße im Dokument. Standard ist «10pt».
+a4paper,													% a4paper, a5paper, b5paper, letterpaper, legalpaper Legt das Papierformat fest. Standard ist «letterpaper».
+															% landscape Wählt Querformat für das Papier.
+DIV=calc, 										% Errechnet einen guten Satzspiegel
+%BCOR=1.5cm, 										% Weil bei mir immer 1cm in der Bindung
+titlepage,													% titlepage, notitlepage Legt fest, ob es eine separate Titelseite geben soll oder nicht.
+															% leqno Die Nummer bei nummerierten Formeln soll links, statt rechts, dargestellt werden.
+															% fleqn Formeln sollen linksbündig statt zentriert dargestellt werden.
+															% openbib Es soll das «offene» Bibliographie-Format verwendet werden.
+final,														% draft, final Legt fest, ob es sich bei dem Dokument um einen Entwurf oder um die ?nale Version handelt. Das wirkt sich auf verschiedene Pakete aus. Beim Entwurf werden z. B. Bilder nur als Rahmen dargestellt, und übervolle Boxen werden mit einer Linie markiert.
+oneside,													% oneside, twoside Wählt, ob die Ausgabe auf doppelseitigem oder auf einseitigem Papier erfolgen soll.
+openany,													% openright, openany De?niert, wo neue Kapitel beginnen dürfen. Mit «openright» werden neue Kapitel nur auf einer rechten Seite begonnen.
+onecolumn,													% onecolumn, twocolumn Legt fest, ob der Text ein- oder zweispaltig gesetzt werden soll.
+%bibliography = totoc
+]{scrreprt}       % Dokumentklasse ggfs. anpassen
+%draft oder final
+%[DIVcalc,BCORY ]
+%scrbook, scrreprt, scrartcl
+
+%
+% Maketitle-Informationen
+%
+\titlehead{Simulationsmethoden in der Physik \hfill Computerphysik II}
+\subject{Report}
+\title{Molekular-Dynamik von weichen Teilchen}
+\subtitle{}
+%\author{Maximilian Rühl\footnote{maxi.ruehl@googlemail.com} $\quad$ y Sebastian Eibl\footnote{sebastian.eibl@sebastian-eibl.de}}
+\author{Sebastian Eibl}
+\date{\today}
+\publishers{Friedrich Alexander Universität Erlangen-Nürnberg}
+%\and
+%\thanks{Fußnote }
+
+%\dedication{Dies ist mein inoffizieller Reisebericht für meine Freunde! Nicht zur Weitergabe gedacht! Da ich im Moment noch relativ viel schreibe und auch versuche alles möglichst zeitnah zu veröffentlichen, bitte ich über eventuelle Rechtschreib- und Grammatikfehler hinwegzusehen. Für Korrekturen bin ich aber immer dankbar. Ich gebe mir viel Mühe bei den spanischen Begriffen, da ich aber selber noch Spanisch lerne, kann ich nicht für die Richtigkeit garantieren. Ich hoffe, dass ich von meinen treuen Lesern, die besser Spanisch können als ich, darauf hingewiesen werde, wenn ich groben Unfug mache. ;-) Viel Spaß beim Lesen!}
+
+%
+% Sprachanpassungen
+%
+\usepackage[ansinew]{inputenc}        % ggfs. anpassen -- Eingabekodierung
+\usepackage[T1]{fontenc}              % Zeichensatzkodierung
+\usepackage[ngerman]{babel}           % Sprache einstellen
+% \hyphenation{Ba-na-ne}     Trennung vorgeben
+
+%
+% Schriftart
+%
+\usepackage{lmodern}
+%\usepackage{times}
+%\usepackage{mathpazo}                % times font plus extra support for maths
+%\usepackage{courier}
+%\usepackage{helvet}                  % helvetica as the sans serif font
+					 
+%
+% Erweiterungen
+%
+%\usepackage[numbers,round]{natbib}
+%\bibpunct{[}{]}{;}{n}{}{,}
+\usepackage[german]{fancyref}        % schönere Referenzen
+%\Fref{Label} und \fref{label}
+\usepackage{graphicx}                % Bilder einbinden
+%\includegraphics[Optionen ]{path/file}
+%[iwidth,iheight,fscale,fangle,bclip,viewport]
+\usepackage{booktabs}                % schönere Tabellen
+%\toprule \midrule \bottomrule
+\usepackage{amsmath}         		 % Mathe-Erweiterungen
+\usepackage{amsfonts}
+\usepackage{amssymb}
+%\usepackage{textcomp}        		 % Weitere Symbole
+%\usepackage{xcolor}          	     % Farbe
+\usepackage{ragged2e}                % bündige Texte mit Silbentrennung
+% \RaggedLeft, \RaggedRight, \Centering
+%\usepackage{tikz}
+%\usepackage{multicol}                % Text nebeneinander
+% \begin{multicols}{<spaltenzahl>}[text_davor]
+\usepackage[%
+%headtopline,
+%plainheadtopline,
+%headsepline,
+%plainheadsepline,
+%footsepline,
+%plainfootsepline,
+%footbotline,
+%plainfootbotline
+]{scrpage2}                % flexiblere Kopf und Fußzeilen
+\usepackage[load-configurations=abbreviations]{siunitx}                 % einheitliche Einheiten
+%SI[]{Wert}[]{Einheit}
+\DeclareSIUnit\Ch{Ch}
+%\usepackage{float}                   % Floatingumgebung
+\usepackage{hyperref}                % verbessert die PDF-Ausgabe
+%\href{URL}{Text}
+%\url{URL}
+\usepackage{isotope}
+
+%
+% Bug-Fixes
+%
+\usepackage{fixltx2e}        % Bugs korrigieren
+\usepackage{mparhack}        % Marginpars korrigieren
+\usepackage[toc,page]{appendix}
+\usepackage[section]{placeins}	%get figures right
+
+%
+% href-Optionen
+%
+% \hypersetup{%
+% pdftitle={NumerischeSimulationderintergranularen
+% Ri¼ausbreitungdurchSpannungskorrosion},
+% pdfsubject={DiplomarbeitamIBNM},
+% pdfauthor={SaschaBeuermann},
+% pdfkeywords={Simulation,intergranualareRi¼ausbreitung,
+% Spannungskorrosion},
+% pdfcreator={Adobe-Acrobat-Distiller},
+% pdfproducer={LaTeXwithhyperrefandthumbpdf}
+% }
+\hypersetup{%
+colorlinks=true,
+}
+
+% Absatzeinrückung durch Leerzeile ersetzen
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{\baselineskip}
+
+%deutsche Anpassung für siuntisx
+\sisetup{
+list-final-separator={ und },
+range-phrase={ bis },
+separate-uncertainty = true,
+per-mode = fraction,
+output-decimal-marker = {,}
+}
+
+%
+% Einstellungen für scrpage2
+%
+\pagestyle{scrheadings}
+\clearscrheadings
+\clearscrplain
+\clearscrheadfoot
+
+%\renewcommand{\chaptermark}[1]{\markboth{#1}{}}
+%\renewcommand{\chaptermark}[1]{\markright{#1}{}}
+
+\chead{}
+\ohead{}
+\ofoot{}
+\cfoot{\pagemark}
+
+%\addto\captionsngerman{\renewcommand{\figurename}{Abb.}}
+
+\usepackage{microtype, textcomp}       % als letztes -- Verbesserter Textsatz

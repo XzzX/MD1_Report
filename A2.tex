@@ -1,0 +1,45 @@
+\chapter{Lennard-Jones-Flüssigkeit in 2D}
+\section{Das Lennard-Jones-Potential}
+Nun wird die Simulation auf mehrere Teilchen erweitert. Diese Teilchen befinden sich nicht mehr in einem äußeren Potential sondern wechselwirken mit sich selbst. Das Potential, das jedes von jedem Teilchen an seiner Position erzeugt wird, wird mit Hilfe des Lennard-Jones-Potentials genähert. Da das Lennard-Jones-Potential kugelsymmetrisch ist (keine Richtung wird von den Teilchen bevorzugt) lässt es sich in Abhängigkeit von $r$, dem Abstand zum Teilchen, darstellen. Das Lennard-Jones-Potential ist wie folgt definiert:
+\begin{equation}
+V(r) = 4\epsilon \left[\left(\frac{\sigma}{r}\right)^{12} - \left(\frac{\sigma}{r}\right)^6 \right]
+\end{equation}
+Das Minimum des Lennard-Jones-Potentials befindet sich bei $r_c=2^\frac{1}{6}\sigma$. Dies entspricht einer Energie von $E_{min}=V(r_c)=-\epsilon$ Die dazugehörige Kraftwirkung erhält man durch Differenzieren:
+\begin{equation}
+F(\vec{r}) = -\nabla V(\vec{r}) = 4\epsilon \left[\left(\frac{\sigma}{r}\right)^{12} - \left(\frac{\sigma}{r}\right)^6 \right]
+\end{equation}
+$\epsilon$ und $\sigma$ sind charakteristische Größen für das Lennard-Jones-Potential, wobei $\epsilon$ eine Energie darstellt und $\sigma$ eine Länge. Dies wird in Abbildung \ref{fig:LJE} und \ref{fig:LJS} dargestellt.
+\begin{figure}[htbp]
+	\centering
+		\includegraphics[width=0.70\textwidth]{img/LJE.pdf}
+	\caption{Verlauf des Lennard-Jones-Potentials in Abhängigkeit der Entfernung. Es zeigt sich, dass $\epsilon$ eine charakteristische Energie darstellt.}
+	\label{fig:LJE}
+\end{figure}
+\begin{figure}[htbp]
+	\centering
+		\includegraphics[width=0.70\textwidth]{img/LJS.pdf}
+	\caption{Verlauf des Lennard-Jones-Potentials in Abhängigkeit der Entfernung. Es zeigt sich, dass $\sigma$ eine charakteristische Länge darstellt.}
+	\label{fig:LJS}
+\end{figure}
+Wie in den Diagrammen zu erkennen ist, macht es Sinn, alle Einheiten in der Simulation im Bezug auf $\sigma$ und $\epsilon$ anzugeben. Dies wird damit erreicht, dass in der Simulation $\sigma$ und $\epsilon$ gleich 1 gesetzt werden.
+
+\section{Simulation}
+Es wird nun eine 2D-Simulation geschrieben, die den zeitlichen Verlauf der Position und der Geschwindigkeit, von $N$ Teilchen ermittelt. Dazu werden die Teilchen zu Beginn auf einem quadratischen Gitter oder einem Dreiecksgitter angeordnet (vgl. \fref{fig:gitter}).
+\begin{figure}[htbp]
+	\centering
+		\includegraphics[width=0.80\textwidth]{img/gitter.JPG}
+	\caption{Quadratische (links) und dreieckige (rechts) Anordnung der Teilchen zu Beginn der Simulation. Ausschnitt übernommen aus \cite{schroeder-turk2012}.}
+	\label{fig:gitter}
+\end{figure}
+Es zeigt sich, dass sich die quadratische angeordneten Teilchen sofort in Richtung der Dreiecksstruktur orientieren. Dies lässt darauf schließen, dass die Dreiecksstruktur energetisch günstiger ist, als die quadratische. Für große Zeiten expandiert das System, da die Energie, wie in \fref{chap:HarmOsziNumLsg} gesehen, aufgrund von numerischen Fehlern stetig ansteigt.
+
+
+\section{Komplexität}
+Um die Komplexität der Simulation zu ermitteln, werden mehrere Simulationen mit unterschiedlicher Teilchenzahl durchgeführt. Alle anderen Parameter bleiben dabei unverändert. Es wird die Zeit für jeden Integrationsschritt gemessen und ein Mittelwert aus 100 Schritten gebildet. Anschließend wird an die so gewonnen Daten ein Polynom angefittet, um die Komplexität zu bestimmen.
+\begin{figure}[h!]
+	\centering
+		\includegraphics[width=0.70\textwidth]{img/LZ.pdf}
+	\caption{Laufzeit in Anhängigkeit von der Teilchenzahl mit polynomialen Fit. Es zeigt sich eine $N^2$ Abhängigkeit.}
+	\label{fig:LZ}
+\end{figure}
+Für das Polynom $ax^3+bx^2+cx+d$ ergeben sich folgende Werte: $a=\num{8.65289354e-03}$, $b=\num{9.31841092e+01}$, $c=\num{8.07504705e+03}$ und $d=\num{7.96768647e+05}$. Es zeigt sich, dass die 3. Ordnung vernachlässigbar ist. Somit lässt sich schließen, dass das Programm eine Komplexität von $O(N^2)$ aufweist.

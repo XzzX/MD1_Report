@@ -1,0 +1,79 @@
+\chapter{Simulation eines einzelnen Teilchens im harmonischen Potenzial}
+
+Um sich mit dem Simulationsframework vertraut zu machen, wird zuerst ein einzelnes Teilchen im harmonischen Potential simuliert. Die Simulation erfolgt dabei nur in einer Dimension auf der x-Achse. Das verwendete Potential hat die Form
+\begin{equation}
+V(x) = \frac{1}{2}\epsilon x^2
+\end{equation}
+Die daraus resultierende Kraft auf ein Teilchen an der Position $x$ lässt sich wie folgt beschreiben:
+\begin{equation}
+F(x) = -\frac{\partial}{\partial x} V(x) = -\epsilon x
+\end{equation}
+
+\section{Analytische Lösung}
+Für den Fall, dass keine weiteren Kräfte auftreten, lässt sich folgende Bewegungsgleichung formulieren:
+\begin{equation}
+\ddot{x} + \omega^2x = 0
+\end{equation}
+In dieser Gleichung wurde $\omega = \sqrt{\frac{\epsilon}{m}}$ eingeführt. Unter Verwendung der Startbedingungen $x_0=A$ und $v_0=0$ ergibt sich die bekannte Lösung des harmonischen Oszillators, wobei $x_0$ die Startposition und $v_0$ die Startgeschwindigkeit beschreiben:
+\begin{equation}
+x(t) = A\cos(\omega t)
+\end{equation}
+Eine detaillierte Herleitung ist zum Beispiel bei \cite[Kap. 11.1]{demtroeder2008} zu finden.
+Führt man zusätzlich noch eine Reibungskraft der Form $F_R = -R\dot{x}$ ein, ergibt sich folgende Differenzialgleichung:
+\begin{equation}
+\ddot{x} + \gamma \dot{x} + \omega^2x = 0
+\end{equation}
+Dabei wurde $\gamma=\frac{R}{2m}$ gesetzt. Bei der Lösung dieser Differenzialgleichung gilt es drei Fälle zu unterscheiden.
+\begin{align}
+&\gamma<\omega, \textbf{schwache Dämpfung} && x(t) = A e^{-\gamma t}\cos(\omega t) \\
+&\gamma=\omega, \textbf{aperiodischer Grenzfall} && x(t) = A(1+\gamma t) e^{-\gamma t} \\
+&\gamma>\omega, \textbf{starke Dämpfung} && x(t) = \frac{A}{\alpha} e^{-\gamma t} \left[ \alpha\cosh(\alpha t) + \gamma\sinh(\alpha t) \right]
+\end{align}
+mit $\alpha = \sqrt{\gamma^2 - \omega^2}$. Die Lösungen entstehen durch Annahme der gleichen Anfangsbedingungen wie weiter oben beschrieben. Eine ausführliche Herleitung kann bei \cite[Kap. 11.3]{demtroeder2008} nachvollzogen werden.
+
+\section{Numerische Lösung}
+\label{chap:HarmOsziNumLsg}
+Die eben hergeleiteten analytischen Lösungen sollen nun in der Simulation nachvollzogen werden. Dazu werden folgende Parameter gewählt:
+\begin{itemize}
+	\item $\epsilon = 1$
+	\item $m = 1$
+	\item $A = 5.61231$
+\end{itemize}
+Die Bewegungsgleichung wird mit Hilfe des Eulerverfahrens
+\begin{align}
+x_{t+\Delta t} &= x_t + \dot{x}_t \Delta t \\
+\dot{x}_{t+\Delta t} &= \dot{x}_t + \ddot{x}_t \Delta t 
+\end{align}
+diskret in $\Delta t$ Schritten integriert. Zuerst werden die Auswirkungen unterschiedlicher $\Delta t$ auf die Trajektorie untersucht.
+\begin{figure}[h!]
+	\centering
+		\includegraphics[width=0.70\textwidth]{img/HarmOsziX.pdf}
+	\caption{Aufgetragen ist die Position des Teilchens gegen die Zeit. Es zeigt sich, dass das gewählte $\Delta t$ signifikanten Einfluss auf die Trajektorie hat. Eine feiner zeitliche Diskretisierung führt zu einem Ergebnis, das näher an der analytischen Lösung liegt.}
+	\label{fig:HarmOsziX}
+\end{figure}
+Für unterschiedliche $\Delta t$ lassen sich in \fref{fig:HarmOsziX} deutliche Unterschiede in der Trajektorie feststellen. Für kleinere $\Delta t$ stimmt der Verlauf besser mit dem theoretisch vorausgesagten überein. Dies ist nicht verwunderlich, da eine feinere zeitliche Diskretisierung zu kleineren numerischen Fehlern führt. Um die Energieerhaltung des Eulerverfahrens zu überprüfen, wird die Energie ebenfalls aufgezeichnet.
+\begin{figure}[h!]
+	\centering
+		\includegraphics[width=0.70\textwidth]{img/HarmOsziE.pdf}
+	\caption{Aufgetragen ist die gesamte Energie des Teilchens gegen die Zeit. Es zeigt sich, dass die Energieerhaltung des Eulerverfahrens sehr schlecht ist.}
+	\label{fig:HarmOsziE}
+\end{figure}
+Die Energieerhaltung ist beim Eulerverfahren nur schlecht gegeben, was man am Divergieren der Energie in \fref{fig:HarmOsziE} erkennen kann. Das Eulerverfahren eignet sich also nur bedingt zur Integration von Bewegungsgleichungen, da die Energieerhaltung in der Physik ein fundamentales Prinzip darstellt. Die Fehler können durch eine feinere zeitliche Diskretisierung verbessert, aber nicht verhindert werden. Für die Fälle mit Dämpfung zeigt sich ein ähnliches Bild.
+\begin{figure}[h!]
+	\centering
+		\includegraphics[width=0.70\textwidth]{img/HarmOsziSch.pdf}
+	\caption{Harmonischer Oszillator mit schwacher Dämpfung. $\gamma=0.1\omega$. Die simulierte Trajektorie (blau) weicht leicht von der theoretischen Erwartung (grün) ab.}
+	\label{fig:HarmOsziSch}
+\end{figure}
+\begin{figure}[h!]
+	\centering
+		\includegraphics[width=0.70\textwidth]{img/HarmOsziA.pdf}
+	\caption{Harmonischer Oszillator im aperiodischen Grenzfall. $\gamma=\omega$.}
+	\label{fig:HarmOsziA}
+\end{figure}
+\begin{figure}[h!]
+	\centering
+		\includegraphics[width=0.70\textwidth]{img/HarmOsziSt.pdf}
+	\caption{Harmonischer Oszillator mit starker Dämpfung. $\gamma=10\omega$.}
+	\label{fig:HarmOsziSt}
+\end{figure}
