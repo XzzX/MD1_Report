@@ -1,1 +1,15 @@
 \chapter{Bestimmung der Zwei-Punkt-Korrelationsfunktion}
+Die Zwei-Punkt-Korrelationsfunktion ist so definiert, dass $\rho g(r) dV$ proportional dazu ist, ein Teilchen in einem Volumenelement $dV$ um ein anderes Teilchen zu finden. Dabei bezeichnet $\rho$ die Teilchendichte und $g$ die Zwei-Punkt-Korrelationsfunktion. In zwei Dimensionen lässt sich die Zwei-Punkt-Korrelationsfunktion wie folgt definieren \cite[Kap. 4.3]{rapaport2004}:
+\begin{equation}
+g(r_n) = \frac{h_n L_x L_y}{\pi N^2 r_n \Delta r}
+\end{equation}
+wobei $L_x$ und $L_y$ die Ausdehnung der Simulationsbox, $N$ die Gesamtzahl der Teilchen, $h_n$ die Anzahl der Teilchen im Abstand $r$ mit $(n-1)\Delta r<r<n\Delta r$, $r_n=(n+\frac{1}{2})\Delta r$ und $\Delta r$ die Diskretisierung des Abstands ist. Die Diskretisierung der Funktion ist nötig, da die Simulation nur eine endliche Anzahl an Teilchen simuliert und deswegen kein Übergang zum Kontinuum möglich ist. Die Aussage der Zwei-Punkt-Korrelationsfunktion lässt sich qualitativ zusammenfassen als:
+\begin{compactitem}
+\item $g(r)>1$ überdurchschnittliche Wahrscheinlichkeit, ein Teilchen in diesem Abstand anzutreffen
+\item $g(r)=1$ durchschnittliche Wahrscheinlichkeit, ein Teilchen in diesem Abstand anzutreffen
+\item $g(r)<1$ unterdurchschnittliche Wahrscheinlichkeit, ein Teilchen in diesem Abstand anzutreffen
+\end{compactitem}
+Für sehr kleine Radien ist die Funktion 0, da sich aufgrund der Ausdehnung der Teilchen und der daraus resultierenden Abstoßung eine "`verbotene"' Zone ergibt.
+
+\section{Bestimmung des Aggregatzustandes}
+Die Zwei-Punkt-Korrelationsfunktion ist ein wichtiges Hilfsmittel bei der Bestimmung des Aggregatzustandes eines Systems. Befindet sich das System in seiner gasförmigen Phase, ist keine Ordnung zu beobachten und die Zwei-Punkt-Korrelationsfunktion sollte sich für alle $r$, mit Ausnahme der sehr kleinen, bei 1 bewegen. Geht das System nun in den flüssigen Zustand und anschließend in den festen Zustand über, erhöht sich die Ordnung. Im kristallinen Zustand sollte sich ein periodisches Muster ergeben, da alle Teilchen einen festen Platz einnehmen. Etwaige Schwankungen sind auf die Energien zurückzuführen, die die Teilchen immer noch besitzen. Aufgrund dieser Energien "`wackeln"' sie um ihre Gleichgewichtsposition.

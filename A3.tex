@@ -1,1 +1,33 @@
 \chapter{Weiche repulsive Teilchen in 2D in periodischer Simulationsbox}
+Da nun die grundlegenden Eigenschaften der Simulation getestet sind, wird die Simulation dahingehend erweitert, dass sie als Modell für eine Lennard-Jones-Flüssigkeit dienen kann.
+
+\section{Zellunterteilung}
+Da die im vorherigen Kapitel bestimmte Laufzeit von $O(N^2)$ für Simulationen mit vielen Teilchen ungeeignet ist, wird die vorhandene Simulation im Bezug auf die Laufzeit optimiert. Da der aufwändigste Schritt die Berechnung der Kraft auf jedes Teilchen ist - hierzu muss gegen alle andere (N-1)-Teilchen getestet werden -, setzt die Optimierung hier an. Dazu wird das Lennard-Jones-Potenzial angepasst. Da der abstoßende Teil des Potenzials stärkere Kräfte erzeugt, wird das Potential auf diesen Teil eingeschränkt. Das veränderte Potential hat dadurch folgende Form.
+\begin{equation}
+V(r) = \left\{ 
+\begin{array}{lll} 
+4\epsilon \left[\left(\frac{\sigma}{r}\right)^{12} - \left(\frac{\sigma}{r}\right)^6 \right] + \epsilon& \quad \text{für} & r<r_c \\  
+0 & \quad\text{für} & r \geq r_c 
+\end{array}
+\right.
+\end{equation}
+$r_c$ bezeichnet dabei wie in \fref{chap:LJ} beschrieben, das Minimum des Potentials. Dieses wurde durch die Modifikation nicht verändert. Genauso ist auch die Kraft unverändert, bis auf das, dass der anziehende Teil durch die zusätzliche Bedingung abgeschnitten wurde. Die Höhe des Potentials wurde so verändert, dass es stetig gegen 0 ausläuft.
+
+Da die Teilchen, die nun diesem Potential unterliegen, keine "`Oberflächenspannung"' mehr besitzen, das heißt, sich nicht mehr gegenseitig anziehen, expandiert das System vom Startpunkt aus. Da auch die Teilchen in der Mitte der Substanz in der Realität keine Oberflächenspannung mehr spüren, ist dieses Modell, für das Innere der Substanz, durchaus angebracht. Die Teilchen werden dabei aber von ihren Nachbarn nahe ihrer Position gehalten. Da das simulierte System aber endlich ist, expandiert es. Um dies zu beheben, werden die Teilchen in eine Box eingesperrt, in der periodische Randbedingungen herrschen. Das heißt, die Teilchen, die die Box rechts verlassen, kommen links wieder in die Box herein und spüren auch die abstoßenden Kräfte über die Boxwand hinweg. Die Dimension der Box wird so gewählt, dass sie einer Einheitszelle entspricht.
+
+Da das Potential nun nur noch für Abstände $<r_c$ Auswirkungen hat, lassen sich die benötigten Teilchen-Teilchen-Wechselwirkungen auf Teilchen im Umkreis von $r_c$ um das Teilchen reduzieren. Technisch wird dies dadurch gelöst, dass die Box in kleine Zellen mit der Breite $r_c$ eingeteilt wird, in die die Teilchen nach jedem Schritt einsortiert werden. Bei der Berechnung der Wechselwirkung werden nun nur noch angrenzenden Zellen beachtet. Dies reduziert die Komplexität des Programms auf $O(N)$. Um dies zu überprüfen, wird wie im vorherigen Kapitel die Komplexität ermittelt.
+\begin{figure}[h!]
+	\centering
+		\includegraphics[width=0.70\textwidth]{img/LZCS.pdf}
+	\caption{Laufzeit der Simulation mit implementierter Zellunterteilung in Abhängigkeit von der Teilchenzahl mit polynomialen Fit. Es zeigt sich eine $N$ Abhängigkeit.}
+	\label{fig:LZCS}
+\end{figure}
+Der Geradenfit ergibt dieses Mal \textbf{1.05}, was sehr gut mit unseren Überlegungen übereinstimmt.
+
+\section{Energieerhaltung}
+Um die Energieerhaltung gegenüber dem Eulerverfahren zu verbessern, wird auf ein anderes Integrationsverfahren umgestiegen. Dieses Verfahren nennt sich Leap-Frog-Verfahren und ist wie folgt definiert:
+\begin{align}
+x_{t+\Delta t} &= x_t + \dot{x}_{t+0.5\Delta t} \Delta t \\
+\dot{x}_{t+\Delta t} &= \dot{x}_t + \ddot{x}_{t+0.5\Delta t} \Delta t 
+\end{align}
+Der Unterschied zum Eulerverfahren besteht darin, die erste Ableitung nicht an der Stelle $t$ sondern an der Stelle $t+0.5\Delta t$ zu berechnen. Dies hat eine wesentlich bessere Konvergenz der Trajektorien zur Folge. \cite[Kap. 3.5]{rapaport2004} Im Gegensatz zum noch genaueren Runge-Kutta-Verfahren kommt das Leap-Frog-Verfahren aber mit nur einer Auswertung des Kraft aus. Da Runge-Kutta-Verfahren benötigt für jeden Schritt vier Auswertungen. Da die Auswertung der Kraft der zeitaufwändigste Teil der Simulation ist, wird die Ungenauigkeit zu Gunsten der kürzeren Rechenzeit in Kauf genommen.

@@ -34,11 +34,11 @@ mit $\alpha = \sqrt{\gamma^2 - \omega^2}$. Die Lösungen entstehen durch Annahme 
 \section{Numerische Lösung}
 \label{chap:HarmOsziNumLsg}
 Die eben hergeleiteten analytischen Lösungen sollen nun in der Simulation nachvollzogen werden. Dazu werden folgende Parameter gewählt:
-\begin{itemize}
+\begin{compactitem}
 	\item $\epsilon = 1$
 	\item $m = 1$
 	\item $A = 5.61231$
-\end{itemize}
+\end{compactitem}
 Die Bewegungsgleichung wird mit Hilfe des Eulerverfahrens
 \begin{align}
 x_{t+\Delta t} &= x_t + \dot{x}_t \Delta t \\
@@ -55,10 +55,24 @@ Für unterschiedliche $\Delta t$ lassen sich in \fref{fig:HarmOsziX} deutliche Un
 \begin{figure}[h!]
 	\centering
 		\includegraphics[width=0.70\textwidth]{img/HarmOsziE.pdf}
-	\caption{Aufgetragen ist die gesamte Energie des Teilchens gegen die Zeit. Es zeigt sich, dass die Energieerhaltung des Eulerverfahrens sehr schlecht ist.}
+	\caption{Aufgetragen ist die gesamte Energie des Teilchens gegen die Zeit. Für die Energieachse wurde eine logarithmische Auftragung gewählt, um den exponentiellen Verlauf zu verdeutlichen. Es zeigt sich, dass die Energieerhaltung des Eulerverfahrens sehr schlecht ist.}
 	\label{fig:HarmOsziE}
 \end{figure}
-Die Energieerhaltung ist beim Eulerverfahren nur schlecht gegeben, was man am Divergieren der Energie in \fref{fig:HarmOsziE} erkennen kann. Das Eulerverfahren eignet sich also nur bedingt zur Integration von Bewegungsgleichungen, da die Energieerhaltung in der Physik ein fundamentales Prinzip darstellt. Die Fehler können durch eine feinere zeitliche Diskretisierung verbessert, aber nicht verhindert werden. Für die Fälle mit Dämpfung zeigt sich ein ähnliches Bild.
+Die Energieerhaltung ist beim Eulerverfahren nur schlecht gegeben, was man am Divergieren der Energie in \fref{fig:HarmOsziE} erkennen kann. Die Stärke der Divergenz wurde mit Hilfe von Fits ermittelt. Der sich daraus ergebende Zusammenhang ist in \fref{tab:HarmOsziEDivergenz}.
+\begin{table}[h!]
+	\centering
+		\begin{tabular}{c|ccc}
+			\toprule
+			zeitliche Diskretisierung ($\Delta t$) & 0.1 & 0.5 & 0.01\\
+			\midrule
+			Proportionalität der Energie $\propto\exp (\cdot t)$ & 0.1 & 0.5 & 0.01\\
+			\bottomrule
+		\end{tabular}
+	\caption{Bestimmung der Divergenz der Energie}
+	\label{tab:HarmOsziEDivergenz}
+\end{table}
+Die Werte legen die Vermutung nahe, dass sich die Energie $\propto\exp ((\Delta t) t)$ verhält.
+Das Eulerverfahren eignet sich also nur bedingt zur Integration von Bewegungsgleichungen, da die Energieerhaltung in der Physik ein fundamentales Prinzip darstellt. Die Fehler können durch eine feinere zeitliche Diskretisierung verbessert, aber nicht verhindert werden. Für die Fälle mit Dämpfung zeigt sich ein besseres Bild, da die Dämpfung auch numerische Divergenz der Energie bremst. Da die Dämpfung proportional zur Energie ist, wird in allen Fällen auf 0 gedämpft. Die Ergebnisse stimmen sehr gut mit den theoretischen Kurven überein.
 \begin{figure}[h!]
 	\centering
 		\includegraphics[width=0.70\textwidth]{img/HarmOsziSch.pdf}

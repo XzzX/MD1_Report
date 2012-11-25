@@ -1,12 +1,13 @@
 \chapter{Lennard-Jones-Flüssigkeit in 2D}
 \section{Das Lennard-Jones-Potential}
+\label{chap:LJ}
 Nun wird die Simulation auf mehrere Teilchen erweitert. Diese Teilchen befinden sich nicht mehr in einem äußeren Potential sondern wechselwirken mit sich selbst. Das Potential, das jedes von jedem Teilchen an seiner Position erzeugt wird, wird mit Hilfe des Lennard-Jones-Potentials genähert. Da das Lennard-Jones-Potential kugelsymmetrisch ist (keine Richtung wird von den Teilchen bevorzugt) lässt es sich in Abhängigkeit von $r$, dem Abstand zum Teilchen, darstellen. Das Lennard-Jones-Potential ist wie folgt definiert:
 \begin{equation}
 V(r) = 4\epsilon \left[\left(\frac{\sigma}{r}\right)^{12} - \left(\frac{\sigma}{r}\right)^6 \right]
 \end{equation}
 Das Minimum des Lennard-Jones-Potentials befindet sich bei $r_c=2^\frac{1}{6}\sigma$. Dies entspricht einer Energie von $E_{min}=V(r_c)=-\epsilon$ Die dazugehörige Kraftwirkung erhält man durch Differenzieren:
 \begin{equation}
-F(\vec{r}) = -\nabla V(\vec{r}) = 4\epsilon \left[\left(\frac{\sigma}{r}\right)^{12} - \left(\frac{\sigma}{r}\right)^6 \right]
+F(\vec{r}) = -\nabla V(\vec{r}) = 24 \frac{\epsilon}{\sigma^2} \left[\left(\frac{\sigma}{r}\right)^{8} - 2\left(\frac{\sigma}{r}\right)^{14} \right] \vec{r}
 \end{equation}
 $\epsilon$ und $\sigma$ sind charakteristische Größen für das Lennard-Jones-Potential, wobei $\epsilon$ eine Energie darstellt und $\sigma$ eine Länge. Dies wird in Abbildung \ref{fig:LJE} und \ref{fig:LJS} dargestellt.
 \begin{figure}[htbp]
@@ -35,11 +36,11 @@ Es zeigt sich, dass sich die quadratische angeordneten Teilchen sofort in Richtu
 
 
 \section{Komplexität}
-Um die Komplexität der Simulation zu ermitteln, werden mehrere Simulationen mit unterschiedlicher Teilchenzahl durchgeführt. Alle anderen Parameter bleiben dabei unverändert. Es wird die Zeit für jeden Integrationsschritt gemessen und ein Mittelwert aus 100 Schritten gebildet. Anschließend wird an die so gewonnen Daten ein Polynom angefittet, um die Komplexität zu bestimmen.
+Um die Komplexität der Simulation zu ermitteln, werden mehrere Simulationen mit unterschiedlicher Teilchenzahl durchgeführt. Alle anderen Parameter bleiben dabei unverändert. Es wird die Zeit für jeden Integrationsschritt gemessen und ein Mittelwert aus 100 Schritten gebildet. Anschließend werden die Daten doppelt logarithmisch aufgetragen und die Komplexität mittels eines Fits bestimmt.
 \begin{figure}[h!]
 	\centering
 		\includegraphics[width=0.70\textwidth]{img/LZ.pdf}
-	\caption{Laufzeit in Anhängigkeit von der Teilchenzahl mit polynomialen Fit. Es zeigt sich eine $N^2$ Abhängigkeit.}
+	\caption{Laufzeit in Anhängigkeit von der Teilchenzahl mit polynomialen Fit. Es zeigt sich eine $N^2$ Abhängigkeit. Die ersten Messwerte werden Aufgrund der Abhängigkeit von der zu diesem Zeitpunkt vohandenen Rechnerlast verworfen.}
 	\label{fig:LZ}
 \end{figure}
-Für das Polynom $ax^3+bx^2+cx+d$ ergeben sich folgende Werte: $a=\num{8.65289354e-03}$, $b=\num{9.31841092e+01}$, $c=\num{8.07504705e+03}$ und $d=\num{7.96768647e+05}$. Es zeigt sich, dass die 3. Ordnung vernachlässigbar ist. Somit lässt sich schließen, dass das Programm eine Komplexität von $O(N^2)$ aufweist.
+Die Bestimmung der Steigung der Geraden ergibt \textbf{2.01}. Dies belegt eindeutig die erwartete Komplexität von $O(N^2)$. Für die Bestimmung der Steigung wurden nur die letzten Werte verwendet, da sie die aussagekräftigsten sind. Zur Bestimmung der Rechenzeit wurde die Differenz zwischen dem Zeitpunkt zum Beginn des Schrittes und zu Ende des Schrittes genommen. Da aber in modernen Betriebssystemen die Rechenleistung auf verschiedene Anwendungen verteilt wird, ist die Annahme, dass in dieser Zeit nur die Simulation gelaufen ist, nicht zu halten. Um das Messergebnis nicht zu verfälschen wurden sämtliche anderen Arbeiten während der Messung eingestellt. Aber auch die Hintergrundprozesse benötigen Rechenleistung. Bei den kleinen Messwerten ist das Verhältnis zwischen Hintergrundrechenzeit und Rechenzeit, die wirklich in der Simulation verbraucht wurde, relativ groß, so dass diese Werte sehr unzuverlässig sind. Bei den höheren Messwerten wird dieser Effekt immer kleiner, da die Rechenleistung, die die Simulation verbraucht, immer dominanter wird.
