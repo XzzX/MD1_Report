@@ -12,4 +12,36 @@ wobei $L_x$ und $L_y$ die Ausdehnung der Simulationsbox, $N$ die Gesamtzahl der 
 Für sehr kleine Radien ist die Funktion 0, da sich aufgrund der Ausdehnung der Teilchen und der daraus resultierenden Abstoßung eine "`verbotene"' Zone ergibt.
 
 \section{Bestimmung des Aggregatzustandes}
-Die Zwei-Punkt-Korrelationsfunktion ist ein wichtiges Hilfsmittel bei der Bestimmung des Aggregatzustandes eines Systems. Befindet sich das System in seiner gasförmigen Phase, ist keine Ordnung zu beobachten und die Zwei-Punkt-Korrelationsfunktion sollte sich für alle $r$, mit Ausnahme der sehr kleinen, bei 1 bewegen. Geht das System nun in den flüssigen Zustand und anschließend in den festen Zustand über, erhöht sich die Ordnung. Im kristallinen Zustand sollte sich ein periodisches Muster ergeben, da alle Teilchen einen festen Platz einnehmen. Etwaige Schwankungen sind auf die Energien zurückzuführen, die die Teilchen immer noch besitzen. Aufgrund dieser Energien "`wackeln"' sie um ihre Gleichgewichtsposition.
+Die Zwei-Punkt-Korrelationsfunktion ist ein wichtiges Hilfsmittel bei der Bestimmung des Aggregatzustandes eines Systems. Befindet sich das System in seiner gasförmigen Phase, ist keine Ordnung zu beobachten und die Zwei-Punkt-Korrelationsfunktion sollte sich für alle $r$, mit Ausnahme der sehr kleinen, bei 1 bewegen. Geht das System nun in den flüssigen Zustand und anschließend in den festen Zustand über, erhöht sich die Ordnung. Im kristallinen Zustand sollte sich ein periodisches Muster ergeben, da alle Teilchen einen festen Platz einnehmen. Etwaige Schwankungen sind auf die Energien zurückzuführen, die die Teilchen immer noch besitzen. Aufgrund dieser Energien "`wackeln"' sie um ihre Gleichgewichtsposition. Für die Simulation der Aggregatszustände werden in der Simulation folgende Parameter verwendet:
+\begin{compactitem}
+ \item Anfangsgeschwindigkeit von $v_0=0.5$ mit zufälliger Richtung
+ \item Teilchenanzahl $N=961$
+ \item Integrationszeitschritt $dt=0.01$
+ \item alle Teilchen werden auf einem Dreiecksgitter mit periodischen Randbedingungen initialisiert
+\end{compactitem}
+Um die Dichte zu variieren wird der Abstand der Teilchen (Gitterkonstante) bei der Initialisierung verändert. Dies verändert auch gleichzeitig die Größe der Simulationsbox. Der Gleichgewichtsabstand liegt bei $r_c=1.12246$. Die Gitterkonstante wird in Einheiten des Gleichgewichtsabstands angegeben. Folgende Abbildungen zeigen die Korrelationsfunktion für verschiedene Gitterkonstanten.
+\begin{figure}[h!]
+	\centering
+		\includegraphics[width=0.70\textwidth]{img/Korr08.pdf}
+	\caption{Korrelation für eine Gitterkonstante von $0.8r_c$. Der erste Peak liegt bei $0.90$}
+	\label{fig:Korr08}
+\end{figure}
+\begin{figure}[h!]
+	\centering
+		\includegraphics[width=0.70\textwidth]{img/Korr1.pdf}
+	\caption{Korrelation für eine Gitterkonstante von $1.0r_c$. Der erste Peak liegt bei $1.12$}
+	\label{fig:Korr1}
+\end{figure}
+\begin{figure}[h!]
+	\centering
+		\includegraphics[width=0.70\textwidth]{img/Korr11.pdf}
+	\caption{Korrelation für eine Gitterkonstante von $1.1r_c$. Der erste Peak liegt bei $1.12$}
+	\label{fig:Korr11}
+\end{figure}
+\begin{figure}[h!]
+	\centering
+		\includegraphics[width=0.70\textwidth]{img/Korr14.pdf}
+	\caption{Korrelation für eine Gitterkonstante von $1.4r_c$. Der erste Peak liegt bei $1.12$}
+	\label{fig:Korr14}
+\end{figure}
+
