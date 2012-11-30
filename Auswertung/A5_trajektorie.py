@@ -26,7 +26,7 @@ Lx = a[0] * (numa-1) + LC;
 
 x = np.loadtxt("Impuls/rawpos_"+sys.argv[1]).transpose()
 
-pl.figure(figsize=(16, 12))
+#pl.figure(figsize=(16, 12))
 
 pl.title("Teilchentrajektorien")
 for i in range(len(x1)):
@@ -52,6 +52,6 @@ pl.xlabel("x")
 pl.ylabel("y")
 pl.xlim(0,Lx)
 pl.ylim(0,Ly)
-pl.legend(loc="upper left")
+#pl.legend(loc="upper left")
 pl.grid()
 pl.show()
